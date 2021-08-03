@@ -1,9 +1,17 @@
 /* Importation de l'application express et bodyparser*/
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 /* Importation de l'application express */
 const app = express();
+
+/* Connexion à la base de donnée MangoDB */
+mongoose.connect('mongodb+srv://kevin:Torino0668@cluster0.rhi97.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 /* CORS - règles de sécurité  */
 app.use((req, res, next) => {
