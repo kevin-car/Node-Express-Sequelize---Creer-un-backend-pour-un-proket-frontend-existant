@@ -1,13 +1,27 @@
+/* Importation de l'application express et bodyparser*/
 const express = require('express');
+const bodyParser = require('body-parser');
 
+/* Importation de l'application express */
 const app = express();
 
+/* CORS - règles de sécurité  */
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+
+/* Conversion des fichiers JSON pour l'import de données */
+app.use(bodyParser.json());
+
+app.post('/api/stuff', (req, res, next) => {
+    console.log(req.body);
+    res.status(201).json({
+      message: 'Objet créé !'
+    });
+  });
 
 app.use('/api/stuff', (req, res, next) => {
     const stuff = [
