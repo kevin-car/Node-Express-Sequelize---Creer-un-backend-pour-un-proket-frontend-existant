@@ -27,9 +27,11 @@ app.use((req, res, next) => {
 /* Conversion des fichiers JSON pour l'import de données */
 app.use(bodyParser.json());
 
-/* Middleware de création d'un nouveau produit */
+
+
+/* Création d'un nouveau produit */
 app.post('/api/stuff', (req, res, next) => {
-    /* Importation selon le model */
+    /* Création selon le model */
     delete req.body._id;
     const thing = new Thing({
       ...req.body
@@ -40,19 +42,24 @@ app.post('/api/stuff', (req, res, next) => {
       .catch(error => res.status(400).json({ error }));
   });
 
-/* Récupération de tous les objets (page d'accueil) */
-app.use('/api/stuff', (req, res, next) => {
-    Thing.find()
-    .then(things => res.status(200).json(things))
-    .catch(error => res.status(400).json({ error }));
-  });
-
 /* Afficher une page fiche produit avec l'ID en paramètre  */
 app.get('/api/stuff/:id', (req, res, next) => {
-    Thing.findOne({ _id: req.params.id })
-      .then(thing => res.status(200).json(thing))
-      .catch(error => res.status(404).json({ error }));
+Thing.findOne({ _id: req.params.id })
+    .then(thing => res.status(200).json(thing))
+    .catch(error => res.status(404).json({ error }));
+});
+
+/* Récupération de tous les objets (page d'accueil) */
+app.get('/api/stuff', (req, res, next) => {
+    Thing.find()
+      .then(things => res.status(200).json(things))
+      .catch(error => res.status(400).json({ error }));
   });
+
+
+
+
+
 
 /* Exporter le module app pour le server.js */
 module.exports = app;
