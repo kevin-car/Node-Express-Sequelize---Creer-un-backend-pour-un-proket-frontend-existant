@@ -4,10 +4,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 /* Importation du model Thing */
-const Thing = require('./models/thing');
+const Thing = require('./models/Thing');
 
 /* Importation de l'application express */
 const app = express();
+
+/* Importation des routes */
+const stuffRoutes = require('./routes/stuff');
 
 /* Connexion à la base de donnée MangoDB */
 mongoose.connect('mongodb+srv://kevin:Torino0668@cluster0.rhi97.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
@@ -29,37 +32,8 @@ app.use(bodyParser.json());
 
 
 
-/* Création d'un nouveau produit */
-app.post('/api/stuff', (req, res, next) => {
-    /* Création selon le model */
-    delete req.body._id;
-    const thing = new Thing({
-      ...req.body
-    });
-    /* Enregistrement dans la BDD */
-    thing.save()
-      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-/* Afficher une page fiche produit avec l'ID en paramètre  */
-app.get('/api/stuff/:id', (req, res, next) => {
-Thing.findOne({ _id: req.params.id })
-    .then(thing => res.status(200).json(thing))
-    .catch(error => res.status(404).json({ error }));
-});
-
-/* Récupération de tous les objets (page d'accueil) */
-app.get('/api/stuff', (req, res, next) => {
-    Thing.find()
-      .then(things => res.status(200).json(things))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-
-
-
-
+/* Utilisation des routes contenu dans le fichier de route --> stuff.js */
+app.use('/api/stuff', stuffRoutes);
 
 /* Exporter le module app pour le server.js */
 module.exports = app;
