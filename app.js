@@ -11,6 +11,7 @@ const app = express();
 
 /* Importation des routes */
 const stuffRoutes = require('./routes/stuff');
+const userRoutes = require('./routes/user')
 
 /* Connexion à la base de donnée MangoDB */
 mongoose.connect('mongodb+srv://kevin:Torino0668@cluster0.rhi97.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
@@ -31,9 +32,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 
-
 /* Utilisation des routes contenu dans le fichier de route --> stuff.js */
 app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth',userRoutes)
 
 /* Exporter le module app pour le server.js */
 module.exports = app;
