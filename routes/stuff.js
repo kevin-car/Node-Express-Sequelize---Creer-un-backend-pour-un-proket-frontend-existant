@@ -1,14 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+/* Importation des modules crées et utilisés par nos routes  */
 const stuffCtrl = require('../controllers/stuff')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
+const multer = require ('../middleware/multer-config')
 
 /* Création d'un nouveau produit */
-router.post('/', auth, stuffCtrl.createThing);
+router.post('/', auth, multer, stuffCtrl.createThing);
 
 /* Modification d'un objet existant avec l'ID en paramètre */
-router.put('/:id', auth, stuffCtrl.modifyThing);
+router.put('/:id', auth, multer, stuffCtrl.modifyThing);
 
 /* Supprimer un élément précis avec l'ID en paramètre */
 router.delete('/:id', auth, stuffCtrl.deleteThing);

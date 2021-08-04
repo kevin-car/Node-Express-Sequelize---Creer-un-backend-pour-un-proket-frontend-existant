@@ -13,6 +13,9 @@ const app = express();
 const stuffRoutes = require('./routes/stuff');
 const userRoutes = require('./routes/user')
 
+/* Importation du module pour l'accès au dossier  */
+const path = require('path')
+
 /* Connexion à la base de donnée MangoDB */
 mongoose.connect('mongodb+srv://kevin:Torino0668@cluster0.rhi97.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -31,10 +34,12 @@ app.use((req, res, next) => {
 /* Conversion des fichiers JSON pour l'import de données */
 app.use(bodyParser.json());
 
+/* Autorisation de Importation de l'image */
+app.use('/images',express.static(path.join(__dirname,'images')));
 
 /* Utilisation des routes contenu dans le fichier de route --> stuff.js */
 app.use('/api/stuff', stuffRoutes);
-app.use('/api/auth',userRoutes)
+app.use('/api/auth', userRoutes);
 
 /* Exporter le module app pour le server.js */
 module.exports = app;
